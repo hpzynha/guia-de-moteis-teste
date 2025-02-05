@@ -8,6 +8,11 @@ final motelServiceProvider = Provider<MotelService>((ref) {
 });
 
 final motelListProvider = FutureProvider<List<Motel>>((ref) async {
-  final service = ref.read(motelServiceProvider);
-  return await service.fetchMotels();
+  try {
+    final service = ref.read(motelServiceProvider);
+    return await service.fetchMotels();
+  } catch (e) {
+    print('Erro no provider: $e');
+    throw e; // Repassa o erro para a UI
+  }
 });

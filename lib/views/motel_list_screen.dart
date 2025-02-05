@@ -15,49 +15,84 @@ class MotelListScreen extends ConsumerWidget {
       ),
       body: motelListAsync.when(
         loading: () => Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(
-          child: Text('Erro ao carregar motéis'),
+        error: (error, stack) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error, color: Colors.red, size: 50),
+              SizedBox(height: 20),
+              Text('Erro ao carregar dados:', style: TextStyle(fontSize: 18)),
+              Text(error.toString(),
+                  style: TextStyle(color: Colors.grey),
+                  textAlign: TextAlign.center),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => ref.invalidate(motelListProvider),
+                child: Text('Tentar novamente'),
+              )
+            ],
+          ),
         ),
-        data: (motels) => ListView.builder(
-          itemCount: motels.length,
-          itemBuilder: (context, index) {
-            final motel = motels[index];
-            return Card(
-              margin: EdgeInsets.all(8),
-              child: Padding(
-                padding: EdgeInsets.all(12),
-                child: Row(
-                  children: [
-                    Image.network(
-                      motel.imageUrl,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
+        data: (motels) => motels.isEmpty
+            ? Center(child: Text('Nenhum motel encontrado'))
+            : ListView.builder(
+                itemCount: motels.length,
+                itemBuilder: (context, index) {
+                  final motel = motels[index];
+                  return Card(
+                    margin: EdgeInsets.all(8),
+                    child: Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Image.network(
+                                motel.imageUrl,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                              SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(motel.name,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: 4),
+                                    Text(motel.address,
+                                        style:
+                                            TextStyle(color: Colors.grey[600])),
+                                    SizedBox(height: 8),
+                                    Text(
+                                        'A partir de R\$ ${motel.lowestPrice.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.green[700],
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (motel.suites.isNotEmpty)
+                            Padding(
+                              padding: EdgeInsets.only(top: 8),
+                              child: Text(
+                                'Suítes disponíveis: ${motel.suites.length}',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          motel.name,
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          'R\$ ${motel.price.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }

@@ -4,8 +4,6 @@ import 'package:guia_de_moteis_teste/providers/motel_provider.dart';
 import 'package:guia_de_moteis_teste/widgets/availability_alert.dart';
 import 'package:guia_de_moteis_teste/widgets/location_header.dart';
 import 'package:guia_de_moteis_teste/widgets/motel_card.dart';
-import 'package:guia_de_moteis_teste/widgets/price_button.dart';
-import 'package:guia_de_moteis_teste/widgets/price_grid.dart';
 import 'package:guia_de_moteis_teste/widgets/rating_stars.dart';
 
 class MotelListScreen extends ConsumerWidget {

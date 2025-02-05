@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guia_de_moteis_teste/providers/motel_provider.dart';
+import 'package:guia_de_moteis_teste/widgets/availability_alert.dart';
+import 'package:guia_de_moteis_teste/widgets/location_header.dart';
+import 'package:guia_de_moteis_teste/widgets/motel_card.dart';
+import 'package:guia_de_moteis_teste/widgets/price_button.dart';
+import 'package:guia_de_moteis_teste/widgets/price_grid.dart';
+import 'package:guia_de_moteis_teste/widgets/rating_stars.dart';
 
 class MotelListScreen extends ConsumerWidget {
   const MotelListScreen({super.key});
@@ -49,57 +55,67 @@ class MotelListScreen extends ConsumerWidget {
                 itemCount: motels.length,
                 itemBuilder: (context, index) {
                   final motel = motels[index];
-                  return Card(
-                    margin: EdgeInsets.all(8),
-                    child: Padding(
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                  return Column(
+                    children: [
+                      Card(
+                        margin: EdgeInsets.all(8),
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.network(
-                                motel.imageUrl,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
+                              Row(
+                                children: [
+                                  Image.network(
+                                    motel.imageUrl,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(motel.name,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold)),
+                                        SizedBox(height: 4),
+                                        Text(motel.address,
+                                            style: TextStyle(
+                                                color: Colors.grey[600])),
+                                        SizedBox(height: 8),
+                                        Text(
+                                            'A partir de R\$ ${motel.lowestPrice.toStringAsFixed(2)}',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.green[700],
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(motel.name,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                    SizedBox(height: 4),
-                                    Text(motel.address,
-                                        style:
-                                            TextStyle(color: Colors.grey[600])),
-                                    SizedBox(height: 8),
-                                    Text(
-                                        'A partir de R\$ ${motel.lowestPrice.toStringAsFixed(2)}',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.green[700],
-                                            fontWeight: FontWeight.bold)),
-                                  ],
+                              if (motel.suites.isNotEmpty)
+                                Padding(
+                                  padding: EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    'Suítes disponíveis: ${motel.suites.length}',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
-                          if (motel.suites.isNotEmpty)
-                            Padding(
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text(
-                                'Suítes disponíveis: ${motel.suites.length}',
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                            ),
-                        ],
+                        ),
                       ),
-                    ),
+                      LocationHeader(),
+                      AvailabilityAlert(remaining: 2),
+                      RatingStars(rating: 2),
+                      FilledButton(onPressed: () {}, child: Text('sd')),
+                      MotelCard(),
+                    ],
                   );
                 },
               ),

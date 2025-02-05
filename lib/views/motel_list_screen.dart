@@ -16,21 +16,31 @@ class MotelListScreen extends ConsumerWidget {
       body: motelListAsync.when(
         loading: () => Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error, color: Colors.red, size: 50),
-              SizedBox(height: 20),
-              Text('Erro ao carregar dados:', style: TextStyle(fontSize: 18)),
-              Text(error.toString(),
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () => ref.invalidate(motelListProvider),
-                child: Text('Tentar novamente'),
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.wifi_off, size: 50, color: Colors.red),
+                const SizedBox(height: 20),
+                Text(
+                  'Erro de conexão',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  error.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Tentar novamente'),
+                  onPressed: () => ref.invalidate(motelListProvider),
+                ),
+              ],
+            ),
           ),
         ),
         data: (motels) => motels.isEmpty

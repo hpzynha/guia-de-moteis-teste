@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:guia_de_moteis_teste/models/model.dart';
+import 'package:guia_de_moteis_teste/models/motel.dart';
 import 'package:http/http.dart' as http;
 
 class MotelService {
@@ -7,7 +7,7 @@ class MotelService {
 
   MotelService(this.client);
 
-  Future<List<Motel>> fetchMotel() async {
+  Future<List<Motel>> fetchMotels() async {
     final response =
         await client.get(Uri.parse('https://jsonkeeper.com/b/1IXK'));
     if (response.statusCode == 200) {

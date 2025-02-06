@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guia_de_moteis_teste/providers/motel_provider.dart';
-import 'package:guia_de_moteis_teste/widgets/filter_chips.dart';
-import 'package:guia_de_moteis_teste/widgets/location_header.dart';
 import 'package:guia_de_moteis_teste/widgets/motel_card.dart';
 
 import '../models/motel.dart';

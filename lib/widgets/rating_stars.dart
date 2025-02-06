@@ -3,21 +3,27 @@ import 'package:flutter/material.dart';
 class RatingStars extends StatelessWidget {
   final double rating;
 
-  const RatingStars({super.key, required this.rating});
+  const RatingStars({required this.rating});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: List.generate(
-        5,
-        (index) {
-          return Icon(
-            index < rating.floor() ? Icons.star : Icons.star_border,
-            color: Colors.amber,
-            size: 20,
-          );
-        },
-      ),
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.star,
+          color: Colors.amber,
+          size: 16,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          rating.toStringAsFixed(1),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

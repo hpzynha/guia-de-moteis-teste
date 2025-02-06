@@ -16,12 +16,10 @@ class MotelListScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Motéis Disponíveis'),
+        title: const Text('Motéis Disponíveis'),
       ),
       body: motelListAsync.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => _buildErrorWidget(context, ref, error),
         data: (motels) => _buildMainContent(context, motels),
       ),
@@ -30,38 +28,22 @@ class MotelListScreen extends ConsumerWidget {
 
   Widget _buildMainContent(BuildContext context, List<Motel> motels) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          const LocationHeader(),
-          const SizedBox(
-            height: 16,
-          ),
-          const FilterChips(),
-          const SizedBox(
-            height: 24,
-          ),
-          Expanded(
-            child: ListView.separated(
-              itemCount: motels.length,
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 16,
-              ),
-              itemBuilder: (context, index) {
-                final motel = motels[index];
-                return MotelCard(
-                  name: motel.name,
-                  distance: '${motel.distance.toStringAsFixed(1)} km',
-                  location: motel.address,
-                  rating: motel.rating,
-                  reviews: motel.reviewCount,
-                  remaningSuites: motel.availableSuites,
-                  prices: _parsePrices(motel),
-                );
-              },
-            ),
-          )
-        ],
+      padding: const EdgeInsets.all(16.0),
+      child: ListView.separated(
+        itemCount: motels.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 16),
+        itemBuilder: (context, index) {
+          final motel = motels[index];
+          return MotelCard(
+            name: motel.name,
+            distance: '${motel.distance.toStringAsFixed(1)} km',
+            location: motel.address,
+            rating: motel.rating,
+            reviews: motel.reviewCount,
+            remainingSuites: motel.availableSuites,
+            prices: _parsePrices(motel),
+          );
+        },
       ),
     );
   }

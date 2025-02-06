@@ -10,18 +10,19 @@ class MotelCard extends StatelessWidget {
   final String location;
   final double rating;
   final int reviews;
-  final int remaningSuites;
+  final int remainingSuites;
   final Map<String, double> prices;
 
-  const MotelCard(
-      {super.key,
-      required this.name,
-      required this.distance,
-      required this.location,
-      required this.rating,
-      required this.reviews,
-      required this.remaningSuites,
-      required this.prices});
+  const MotelCard({
+    super.key,
+    required this.name,
+    required this.distance,
+    required this.location,
+    required this.rating,
+    required this.reviews,
+    required this.remainingSuites,
+    required this.prices,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,58 +32,61 @@ class MotelCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "$distance - $location",
+                        style: TextStyle(color: Colors.grey[600]),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    RatingStars(rating: rating),
+                    const SizedBox(height: 4),
                     Text(
-                      name,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      "$reviews avaliações",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
                       ),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "$distance - $location",
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
-                Column(
-                  children: [
-                    RatingStars(rating: rating),
-                    Text(
-                      "$reviews avaliações ▼",
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
-            SizedBox(
-              height: 16,
-            ),
-            AvailabilityAlert(remaining: remaningSuites),
-            SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
+            if (remainingSuites > 0)
+              AvailabilityAlert(remaining: remainingSuites),
+            const SizedBox(height: 16),
             PriceGrid(prices: prices),
-            SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             MapButton(),
           ],
         ),

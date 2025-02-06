@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class PriceButton extends StatelessWidget {
@@ -7,6 +5,7 @@ class PriceButton extends StatelessWidget {
   final double price;
 
   const PriceButton({
+    super.key,
     required this.duration,
     required this.price,
   });

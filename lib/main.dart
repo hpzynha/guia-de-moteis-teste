@@ -20,8 +20,25 @@ class MyApp extends StatelessWidget {
       title: 'Guia de motéis',
       theme: ThemeData(
         primarySwatch: Colors.red,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          elevation: 2,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(
+              double.infinity,
+              48,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
       ),
       home: const MotelListScreen(),
       debugShowCheckedModeBanner: false,

@@ -90,6 +90,24 @@ class MotelListScreen extends ConsumerWidget {
               size: 50,
               color: Colors.red,
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              error.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton.icon(
+              onPressed: () => ref.invalidate(motelListProvider),
+              label: const Text('Tentar novamente'),
+              icon: Icon(
+                Icons.refresh,
+              ),
+            )
           ],
         ),
       ),

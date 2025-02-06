@@ -22,20 +22,35 @@ class Motel {
   });
 
   factory Motel.fromJson(Map<String, dynamic> json) {
+    final rawDistance = json['distancia'];
+    final parsedDistance = _parseDouble(rawDistance);
     return Motel(
-      id: json['id'] ?? '0',
-      name: json['fantasia'] ?? 'Motel sem nome',
-      address: json['bairro'] ?? 'Endereço não informado',
-      imageUrl: json['logo'] ?? 'https://via.placeholder.com/100',
-      distance: (json['distancia'] as num?)?.toDouble() ?? 0.0,
-      rating: (json['media'] as num?)?.toDouble() ?? 0.0,
-      reviewCount: json['qtdAvaliacoes'] ?? 0,
-      availableSuites: json['suites']?.length ?? 0,
+      id: json['id']?.toString() ?? '0',
+      name: json['fantasia']?.toString() ?? 'Motel sem nome',
+      address: json['bairro']?.toString() ?? 'Endereço não informado',
+      imageUrl: json['logo']?.toString() ?? 'https://via.placeholder.com/100',
+      distance: parsedDistance!,
+      rating: _parseDouble(json['media']) ?? 0.0,
+      reviewCount: _parseInt(json['qtdAvaliacoes']) ?? 0,
+      availableSuites: _parseInt(json['suites']?.length) ?? 0,
       suites: (json['suites'] as List<dynamic>?)
               ?.map((e) => Suite.fromJson(e))
               .toList() ??
           [],
     );
+  }
+  static double? _parseDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
+  }
+
+  static int? _parseInt(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toInt();
+    if (value is String) return int.tryParse(value);
+    return null;
   }
 }
 

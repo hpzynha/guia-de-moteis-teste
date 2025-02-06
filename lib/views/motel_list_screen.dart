@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guia_de_moteis_teste/providers/motel_provider.dart';
+import 'package:guia_de_moteis_teste/widgets/custom_app_bar.dart';
 import 'package:guia_de_moteis_teste/widgets/motel_card.dart';
 
 import '../models/motel.dart';
@@ -13,8 +14,9 @@ class MotelListScreen extends ConsumerWidget {
     final motelListAsync = ref.watch(motelListProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Motéis Disponíveis'),
+      appBar: CustomAppBar(
+        onMenuPressed: () {},
+        onLocationPressed: () {},
       ),
       body: motelListAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guia_de_moteis_teste/providers/motel_provider.dart';
 import 'package:guia_de_moteis_teste/widgets/availability_alert.dart';
+import 'package:guia_de_moteis_teste/widgets/filter_chips.dart';
 import 'package:guia_de_moteis_teste/widgets/location_header.dart';
 import 'package:guia_de_moteis_teste/widgets/motel_card.dart';
 import 'package:guia_de_moteis_teste/widgets/rating_stars.dart';
+
+import '../models/motel.dart';
 
 class MotelListScreen extends ConsumerWidget {
   const MotelListScreen({super.key});
@@ -18,105 +21,77 @@ class MotelListScreen extends ConsumerWidget {
         title: Text('Motéis Disponíveis'),
       ),
       body: motelListAsync.when(
-        loading: () => Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.wifi_off, size: 50, color: Colors.red),
-                const SizedBox(height: 20),
-                Text(
-                  'Erro de conexão',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  error.toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Tentar novamente'),
-                  onPressed: () => ref.invalidate(motelListProvider),
-                ),
-              ],
-            ),
-          ),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
         ),
-        data: (motels) => motels.isEmpty
-            ? Center(child: Text('Nenhum motel encontrado'))
-            : ListView.builder(
-                itemCount: motels.length,
-                itemBuilder: (context, index) {
-                  final motel = motels[index];
-                  return Column(
-                    children: [
-                      Card(
-                        margin: EdgeInsets.all(8),
-                        child: Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Image.network(
-                                    motel.imageUrl,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(motel.name,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold)),
-                                        SizedBox(height: 4),
-                                        Text(motel.address,
-                                            style: TextStyle(
-                                                color: Colors.grey[600])),
-                                        SizedBox(height: 8),
-                                        Text(
-                                            'A partir de R\$ ${motel.lowestPrice.toStringAsFixed(2)}',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.green[700],
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (motel.suites.isNotEmpty)
-                                Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    'Suítes disponíveis: ${motel.suites.length}',
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LocationHeader(),
-                      AvailabilityAlert(remaining: 2),
-                      RatingStars(rating: 2),
-                      FilledButton(onPressed: () {}, child: Text('sd')),
-                      MotelCard(),
-                    ],
-                  );
-                },
+        error: (error, stack) => _buildErrorWidget(context, ref, error),
+        data: (motels) => _buildMainContent(context, motels),
+      ),
+    );
+  }
+
+  Widget _buildMainContent(BuildContext context, List<Motel> motels) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          const LocationHeader(),
+          const SizedBox(
+            height: 16,
+          ),
+          const FilterChips(),
+          const SizedBox(
+            height: 24,
+          ),
+          Expanded(
+            child: ListView.separated(
+              itemCount: motels.length,
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 16,
               ),
+              itemBuilder: (context, index) {
+                final motel = motels[index];
+                return MotelCard(
+                  name: motel.name,
+                  distance: '${motel.distance.toStringAsFixed(1)} km',
+                  location: motel.address,
+                  rating: motel.rating,
+                  reviews: motel.reviewCount,
+                  remaningSuites: motel.availableSuites,
+                  prices: _parsePrices(motel),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Map<String, double> _parsePrices(Motel motel) {
+    final prices = <String, double>{};
+    for (final suite in motel.suites) {
+      for (final period in suite.periods) {
+        prices[period.formattedTime] = period.valueTotal;
+      }
+    }
+    return prices;
+  }
+
+  Widget _buildErrorWidget(BuildContext context, WidgetRef ref, Object error) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error_outline,
+              size: 50,
+              color: Colors.red,
+            ),
+          ],
+        ),
       ),
     );
   }

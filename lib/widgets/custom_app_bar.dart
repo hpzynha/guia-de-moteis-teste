@@ -13,8 +13,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.red,
       leading: IconButton(
-        icon: const Icon(Icons.menu),
+        icon: const Icon(
+          Icons.menu,
+          size: 30,
+          color: Colors.white,
+        ),
         onPressed: onMenuPressed,
       ),
       title: Column(
@@ -31,13 +36,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             onTap: onLocationPressed,
             child: Row(
               children: [
-                const Icon(Icons.location_on, size: 16),
+                const Icon(
+                  Icons.location_on,
+                  size: 16,
+                  color: Colors.white,
+                ),
                 const SizedBox(width: 4),
                 Text(
-                  'Minha localização ▼',
+                  'Minha localização',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey[600],
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -47,13 +56,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.search),
+          icon: const Icon(
+            Icons.search,
+            size: 30,
+            color: Colors.white,
+          ),
           onPressed: () {
             // Implementar busca
           },
         ),
         IconButton(
-          icon: const Icon(Icons.filter_list),
+          icon: const Icon(
+            Icons.filter_list,
+            color: Colors.white,
+            size: 30,
+          ),
           onPressed: () {
             // Implementar filtros
           },
@@ -63,28 +80,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         preferredSize: const Size.fromHeight(48),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              FilterChip(
-                label: const Text('Com desconto'),
-                onSelected: (selected) {},
-              ),
-              const SizedBox(width: 8),
-              FilterChip(
-                label: Text('Disponíveis'),
-                onSelected: (selected) {},
-              ),
-              const SizedBox(width: 8),
-              FilterChip(
-                label: Text('Hidro'),
-                onSelected: (selected) {},
-              ),
-              const SizedBox(width: 8),
-              FilterChip(
-                label: Text('Piscina'),
-                onSelected: (selected) {},
-              ),
-            ],
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                FilterChip(
+                  label: const Text('Com desconto'),
+                  onSelected: (selected) {},
+                ),
+                const SizedBox(width: 8),
+                FilterChip(
+                  label: Text('Disponíveis'),
+                  onSelected: (selected) {},
+                ),
+                const SizedBox(width: 8),
+                FilterChip(
+                  label: Text('Hidro'),
+                  onSelected: (selected) {},
+                ),
+                const SizedBox(width: 8),
+                FilterChip(
+                  label: Text('Piscina'),
+                  onSelected: (selected) {},
+                ),
+              ],
+            ),
           ),
         ),
       ),

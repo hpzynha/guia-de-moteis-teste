@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guia_de_moteis_teste/widgets/toggle_buttom.dart';
+import 'package:guia_de_moteis_teste/widgets/custom_toggle_button.dart.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onMenuPressed;
@@ -19,14 +19,6 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  String _selectedValue = 'ir agora';
-  void _onSelectionChanged(Set<String> newSelection) {
-    setState(() {
-      _selectedValue = newSelection.first;
-    });
-    widget.onToggleChanged(_selectedValue == 'ir agora');
-  }
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -41,45 +33,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           onPressed: widget.onMenuPressed,
         ),
       ),
-      title: SegmentedButton<String>(
-        segments: const <ButtonSegment<String>>[
-          ButtonSegment(
-            value: 'ir agora',
-            label: Text('Ir Agora'),
-          ),
-          ButtonSegment(
-            value: 'ir outro dia',
-            label: Text('Outro Dia'),
-          ),
-        ],
-        selected: {_selectedValue},
-        showSelectedIcon: false,
-        onSelectionChanged: _onSelectionChanged,
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.selected)) {
-                return Colors.white;
-              }
-              return Colors.red[800]!;
-            },
-          ),
-          foregroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.selected)) {
-                return Colors.black;
-              }
-              return Colors.black;
-            },
-          ),
-          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: BorderSide.none,
-            ),
-          ),
-        ),
-      ),
+      title: Center(child: CustomToggleButton()),
       actions: [
         IconButton(
           icon: const Icon(
@@ -89,16 +43,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
           onPressed: () {
             // Implementar busca
-          },
-        ),
-        IconButton(
-          icon: const Icon(
-            Icons.filter_list,
-            color: Colors.white,
-            size: 30,
-          ),
-          onPressed: () {
-            // Implementar filtros
           },
         ),
       ],

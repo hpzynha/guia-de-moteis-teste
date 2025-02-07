@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guia_de_moteis_teste/widgets/toggle_buttom.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onMenuPressed;
@@ -18,12 +19,12 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  bool _isNow = true;
-  void _toggle() {
+  String _selectedValue = 'ir agora';
+  void _onSelectionChanged(Set<String> newSelection) {
     setState(() {
-      _isNow = !_isNow;
+      _selectedValue = newSelection.first;
     });
-    widget.onToggleChanged(_isNow);
+    widget.onToggleChanged(_selectedValue == 'ir agora');
   }
 
   @override
@@ -40,56 +41,44 @@ class _CustomAppBarState extends State<CustomAppBar> {
           onPressed: widget.onMenuPressed,
         ),
       ),
-      title: Row(
-        children: [
-          GestureDetector(
-            onTap: _toggle,
-            child: Container(
-              width: 120,
-              height: 36,
-              decoration: BoxDecoration(
-                color: _isNow ? Colors.red[800] : Colors.grey[300],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Stack(
-                children: [
-                  AnimatedPositioned(
-                    duration: const Duration(microseconds: 200),
-                    curve: Curves.easeInOut,
-                    left: _isNow ? 4 : 60,
-                    child: Container(
-                      width: 56,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        color: _isNow ? Colors.white : Colors.red[800],
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          _isNow ? Icons.flash_on : Icons.calendar_today,
-                          size: 16,
-                          color: _isNow ? Colors.red[800] : Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 12,
-                    child: Text(
-                      'Ir Agora',
-                      style: TextStyle(
-                        color: _isNow ? Colors.white : Colors.grey[600],
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+      title: SegmentedButton<String>(
+        segments: const <ButtonSegment<String>>[
+          ButtonSegment(
+            value: 'ir agora',
+            label: Text('Ir Agora'),
+          ),
+          ButtonSegment(
+            value: 'ir outro dia',
+            label: Text('Outro Dia'),
           ),
         ],
+        selected: {_selectedValue},
+        showSelectedIcon: false,
+        onSelectionChanged: _onSelectionChanged,
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
+                return Colors.white;
+              }
+              return Colors.red[800]!;
+            },
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
+                return Colors.black;
+              }
+              return Colors.black;
+            },
+          ),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: BorderSide.none,
+            ),
+          ),
+        ),
       ),
       actions: [
         IconButton(

@@ -14,13 +14,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.red,
-      leading: IconButton(
-        icon: const Icon(
-          Icons.menu,
-          size: 30,
-          color: Colors.white,
+      leading: Builder(
+        builder: (context) => IconButton(
+          icon: const Icon(
+            Icons.menu,
+            size: 30,
+            color: Colors.white,
+          ),
+          onPressed: onMenuPressed,
         ),
-        onPressed: onMenuPressed,
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

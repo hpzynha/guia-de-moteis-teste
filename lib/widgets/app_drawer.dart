@@ -11,7 +11,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.red,
             ),
             child: Text(
               'Menu',
@@ -22,7 +22,10 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.home),
+            leading: const Icon(
+              Icons.home,
+              size: 26,
+            ),
             title: const Text('Início'),
             onTap: () {
               // Navegar para a tela inicial
@@ -30,7 +33,10 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.history),
+            leading: const Icon(
+              Icons.history,
+              size: 26,
+            ),
             title: const Text('Histórico'),
             onTap: () {
               // Navegar para o histórico
@@ -38,7 +44,10 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.settings),
+            leading: const Icon(
+              Icons.settings,
+              size: 26,
+            ),
             title: const Text('Configurações'),
             onTap: () {
               // Navegar para configurações
@@ -47,8 +56,13 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.exit_to_app),
-            title: const Text('Sair'),
+            leading: const Icon(
+              Icons.exit_to_app,
+              size: 26,
+            ),
+            title: const Text(
+              'Sair',
+            ),
             onTap: () {
               // Implementar logout
               Navigator.pop(context);

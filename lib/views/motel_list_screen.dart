@@ -14,8 +14,10 @@ class MotelListScreen extends ConsumerStatefulWidget {
 }
 
 class _MotelListScreenState extends ConsumerState<MotelListScreen> {
+  final GlobalKey<ScaffoldState> _scafoldKey = GlobalKey<ScaffoldState>();
+
   void _openDrawer() {
-    Scaffold.of(context).openDrawer();
+    _scafoldKey.currentState?.openDrawer();
   }
 
   void _showLocationDialog() {
@@ -46,6 +48,7 @@ class _MotelListScreenState extends ConsumerState<MotelListScreen> {
     final motelListAsync = ref.watch(motelListProvider);
 
     return Scaffold(
+      key: _scafoldKey, // A chave do Scafold
       appBar: CustomAppBar(
         onMenuPressed: _openDrawer,
         onLocationPressed: _showLocationDialog,

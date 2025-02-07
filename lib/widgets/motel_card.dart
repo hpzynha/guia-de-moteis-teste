@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:guia_de_moteis_teste/widgets/availability_alert.dart';
-import 'package:guia_de_moteis_teste/widgets/map_button.dart';
 import 'package:guia_de_moteis_teste/widgets/price_grid.dart';
 import 'package:guia_de_moteis_teste/widgets/rating_stars.dart';
 
@@ -86,8 +85,6 @@ class MotelCard extends StatelessWidget {
               AvailabilityAlert(remaining: remainingSuites),
             const SizedBox(height: 16),
             PriceGrid(prices: prices),
-            const SizedBox(height: 16),
-            MapButton(),
           ],
         ),
       ),

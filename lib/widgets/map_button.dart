@@ -5,14 +5,29 @@ class MapButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      icon: Icon(Icons.map),
-      onPressed: () {},
-      label: Text("Ver no mapa"),
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    return Align(
+      alignment: Alignment.center,
+      child: ElevatedButton.icon(
+        icon: Icon(
+          Icons.map,
+          color: Colors.red,
+          size: 24,
+        ),
+        onPressed: () {},
+        label: Text(
+          "Mapa",
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          fixedSize: Size(120, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
         ),
       ),
     );

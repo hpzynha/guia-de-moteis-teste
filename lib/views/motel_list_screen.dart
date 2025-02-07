@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:guia_de_moteis_teste/widgets/map_button.dart';
 import '../models/motel.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_app_bar.dart';
@@ -41,10 +42,20 @@ class _MotelListScreenState extends ConsumerState<MotelListScreen> {
         onToggleChanged: _handleToggleChanged,
       ),
       drawer: const AppDrawer(),
-      body: motelListAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildErrorWidget(context, ref, error),
-        data: (motels) => _buildMainContent(context, motels),
+      body: Stack(
+        children: [
+          motelListAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stack) => _buildErrorWidget(context, ref, error),
+            data: (motels) => _buildMainContent(context, motels),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: MapButton(),
+          ),
+        ],
       ),
     );
   }

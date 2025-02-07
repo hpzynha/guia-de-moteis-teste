@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onMenuPressed;
+  final ValueChanged<bool> onToggleChanged;
   final VoidCallback onLocationPressed;
 
   const CustomAppBar({
     super.key,
     required this.onMenuPressed,
     required this.onLocationPressed,
+    required this.onToggleChanged,
   });
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 48);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  bool _isNow = true;
+  void _toggle() {
+    setState(() {
+      _isNow = !_isNow;
+    });
+    widget.onToggleChanged(_isNow);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,39 +39,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             size: 30,
             color: Colors.white,
           ),
-          onPressed: onMenuPressed,
+          onPressed: widget.onMenuPressed,
         ),
       ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      title: Row(
         children: [
-          const Text(
-            'Ir Agora',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          GestureDetector(
-            onTap: onLocationPressed,
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.location_on,
-                  size: 16,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  'Minha localização',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          IconButton(
+              onPressed: _toggle,
+              icon: Icon(_isNow ? Icons.flash_on : Icons.calendar_today))
         ],
       ),
       actions: [

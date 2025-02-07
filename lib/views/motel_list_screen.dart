@@ -15,9 +15,19 @@ class MotelListScreen extends ConsumerStatefulWidget {
 
 class _MotelListScreenState extends ConsumerState<MotelListScreen> {
   final GlobalKey<ScaffoldState> _scafoldKey = GlobalKey<ScaffoldState>();
+  bool _isNow = true;
 
   void _openDrawer() {
     _scafoldKey.currentState?.openDrawer();
+  }
+
+  void _handleToggleChanged(bool isNow) {
+    setState(() {
+      _isNow = isNow;
+
+      if (_isNow) {
+      } else {}
+    });
   }
 
   void _showLocationDialog() {
@@ -52,6 +62,7 @@ class _MotelListScreenState extends ConsumerState<MotelListScreen> {
       appBar: CustomAppBar(
         onMenuPressed: _openDrawer,
         onLocationPressed: _showLocationDialog,
+        onToggleChanged: _handleToggleChanged,
       ),
       drawer: const AppDrawer(),
       body: motelListAsync.when(

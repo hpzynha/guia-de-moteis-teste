@@ -75,6 +75,7 @@ class _MotelListScreenState extends ConsumerState<MotelListScreen> {
           reviews: motel.reviewCount,
           remainingSuites: motel.availableSuites,
           prices: _parsePrices(motel),
+          imageUrl: motel.imageUrl,
         );
       },
     );

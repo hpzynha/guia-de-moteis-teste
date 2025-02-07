@@ -11,6 +11,7 @@ class MotelCard extends StatelessWidget {
   final int reviews;
   final int remainingSuites;
   final Map<String, double> prices;
+  final String imageUrl;
 
   const MotelCard({
     super.key,
@@ -21,6 +22,7 @@ class MotelCard extends StatelessWidget {
     required this.reviews,
     required this.remainingSuites,
     required this.prices,
+    required this.imageUrl,
   });
 
   @override
@@ -36,8 +38,26 @@ class MotelCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Logo do motel
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    imageUrl,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 40,
+                        height: 40,
+                        color: Colors.grey[200],
+                        child: const Icon(Icons.image, color: Colors.grey),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

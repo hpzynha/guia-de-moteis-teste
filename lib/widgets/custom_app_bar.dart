@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onMenuPressed;
   final ValueChanged<bool> onToggleChanged;
-  final VoidCallback onLocationPressed;
 
   const CustomAppBar({
     super.key,
     required this.onMenuPressed,
-    required this.onLocationPressed,
     required this.onToggleChanged,
   });
 
@@ -44,9 +42,53 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
       title: Row(
         children: [
-          IconButton(
-              onPressed: _toggle,
-              icon: Icon(_isNow ? Icons.flash_on : Icons.calendar_today))
+          GestureDetector(
+            onTap: _toggle,
+            child: Container(
+              width: 120,
+              height: 36,
+              decoration: BoxDecoration(
+                color: _isNow ? Colors.red[800] : Colors.grey[300],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Stack(
+                children: [
+                  AnimatedPositioned(
+                    duration: const Duration(microseconds: 200),
+                    curve: Curves.easeInOut,
+                    left: _isNow ? 4 : 60,
+                    child: Container(
+                      width: 56,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: _isNow ? Colors.white : Colors.red[800],
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          _isNow ? Icons.flash_on : Icons.calendar_today,
+                          size: 16,
+                          color: _isNow ? Colors.red[800] : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 12,
+                    child: Text(
+                      'Ir Agora',
+                      style: TextStyle(
+                        color: _isNow ? Colors.white : Colors.grey[600],
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
       actions: [
@@ -105,7 +147,4 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 48);
 }

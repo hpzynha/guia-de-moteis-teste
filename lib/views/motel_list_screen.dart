@@ -30,29 +30,6 @@ class _MotelListScreenState extends ConsumerState<MotelListScreen> {
     });
   }
 
-  void _showLocationDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Alterar localização'),
-        content: const Text('Escolha uma nova localização'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Implementar mudança de localização
-              Navigator.pop(context);
-            },
-            child: const Text('Confirmar'),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final motelListAsync = ref.watch(motelListProvider);
@@ -61,7 +38,6 @@ class _MotelListScreenState extends ConsumerState<MotelListScreen> {
       key: _scafoldKey, // A chave do Scafold
       appBar: CustomAppBar(
         onMenuPressed: _openDrawer,
-        onLocationPressed: _showLocationDialog,
         onToggleChanged: _handleToggleChanged,
       ),
       drawer: const AppDrawer(),

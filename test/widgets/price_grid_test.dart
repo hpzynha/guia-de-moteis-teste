@@ -13,6 +13,9 @@ void main() {
       ),
     );
 
+    // Aguarda a renderização do widget
+    await tester.pump();
+
     // Verifica se os preços estão sendo exibidos
     expect(find.text('2 horas: R\$ 89.00'), findsOneWidget);
     expect(find.text('3 horas: R\$ 109.00'), findsOneWidget);
